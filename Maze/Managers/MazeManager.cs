@@ -22,7 +22,7 @@ namespace Maze.Managers
 			this.mazeConfigurationValidator = mazeConfigurationValidator;
 		}
 
-		public Task GenerateMaze(MazeConfiguration mazeConfiguration)
+		public async Task GenerateMaze(MazeConfiguration mazeConfiguration)
 		{
 			ValidationOutcome outcome = Validation<MazeConfiguration>
 				.Candidate(mazeConfiguration)
@@ -34,7 +34,12 @@ namespace Maze.Managers
 				throw new ManagerException("Validation failed: " + outcome.GetValidationMessage());
 			}
 
-			throw new NotImplementedException();
+			var testMaze = new Models.Maze()
+			{
+				Configuration = mazeConfiguration
+			};
+
+			await mazeRepository.Create(testMaze);
 		}
 	}
 }

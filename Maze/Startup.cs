@@ -1,5 +1,5 @@
+using Maze.EntityFramework;
 using Maze.Managers;
-using Maze.Models;
 using Maze.Repositories;
 using Maze.Validation;
 using Microsoft.AspNetCore.Builder;

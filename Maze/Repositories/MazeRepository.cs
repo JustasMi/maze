@@ -1,4 +1,5 @@
-﻿using Maze.Models;
+﻿using Maze.EntityFramework;
+using Maze.Models;
 using System.Threading.Tasks;
 
 namespace Maze.Repositories

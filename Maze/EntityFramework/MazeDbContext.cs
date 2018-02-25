@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Maze.Models
+namespace Maze.EntityFramework
 {
 	public class MazeDbContext : DbContext
 	{
@@ -13,7 +13,7 @@ namespace Maze.Models
 		{
 		}
 
-		public DbSet<Maze> Maze { get; set; }
+		public DbSet<Models.Maze> Maze { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
