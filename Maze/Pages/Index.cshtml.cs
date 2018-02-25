@@ -21,7 +21,7 @@ namespace Maze.Pages
 
 		public async void OnGetAsync()
 		{
-			Mazes = await this.mazeManager.GetMazes();
+			Mazes = await this.mazeManager.GetAll();
 		}
 	}
 }

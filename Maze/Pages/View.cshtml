@@ -1,0 +1,25 @@
+﻿@page "{id:int}"
+@model Maze.Pages.ViewModel
+@{
+	ViewData["Title"] = "View";
+}
+
+<h2>View Maze</h2>
+
+<div>Name: @Model.Maze.Configuration.Name</div>
+<div>Height: @Model.Maze.Configuration.Height</div>
+<div>Width: @Model.Maze.Configuration.Width</div>
+
+<table class="table">
+	<tbody>
+		@for (int i = 0; i < Model.Maze.Configuration.Height; i++)
+		{
+			<tr>
+				@for (int j = 0; j < Model.Maze.Configuration.Width; j++)
+				{
+					<td>(i,j)-(@i , @j )</td>
+				}
+			</tr>
+		}
+	</tbody>
+</table>

@@ -22,7 +22,9 @@ namespace Maze.Repositories
 
 		public Task<Models.Maze> Get(int key)
 		{
-			return context.Maze.FindAsync(key);
+			return context.Maze
+				.Include(maze => maze.Configuration)
+				.FirstOrDefaultAsync(maze => maze.Id == key);
 		}
 
 		public IQueryable<Models.Maze> GetAll()

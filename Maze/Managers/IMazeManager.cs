@@ -7,6 +7,8 @@ namespace Maze.Managers
 	{
 		Task GenerateMaze(MazeConfiguration mazeConfiguration);
 
-		Task<Models.Maze[]> GetMazes();
+		Task<Models.Maze[]> GetAll();
+
+		Task<Models.Maze> Get(int id);
 	}
 }

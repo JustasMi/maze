@@ -50,7 +50,12 @@ namespace Maze.Managers
 			await mazeRepository.Create(result);
 		}
 
-		public Task<Models.Maze[]> GetMazes()
+		public Task<Models.Maze> Get(int id)
+		{
+			return mazeRepository.Get(id);
+		}
+
+		public Task<Models.Maze[]> GetAll()
 		{
 			return Task.FromResult(mazeRepository.GetAll().ToArray());
 		}
