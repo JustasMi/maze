@@ -1,4 +1,5 @@
-﻿using Maze.Models;
+﻿using Maze.Managers;
+using Maze.Models;
 using Maze.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,11 +12,11 @@ namespace Maze.Pages
 		[BindProperty]
 		public MazeConfiguration MazeConfiguration { get; set; }
 
-		private readonly IMazeRepository mazeRepository;
+		private readonly IMazeManager mazeManager;
 
-		public CreateModel(IMazeRepository mazeRepository)
+		public CreateModel(IMazeManager mazeManager)
 		{
-			this.mazeRepository = mazeRepository;
+			this.mazeManager = mazeManager;
 		}
 
 		public void OnGet()
@@ -28,6 +29,8 @@ namespace Maze.Pages
 			{
 				return Page();
 			}
+
+			await this.mazeManager.GenerateMaze(MazeConfiguration);
 
 			return RedirectToPage("/Index");
 		}

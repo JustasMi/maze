@@ -1,5 +1,7 @@
+using Maze.Managers;
 using Maze.Models;
 using Maze.Repositories;
+using Maze.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,13 @@ namespace Maze
 		{
 			services.AddMvc();
 			services.AddDbContext<MazeDbContext>(options => options.UseInMemoryDatabase("Maze"));
+
 			services.AddScoped<IMazeRepository, MazeRepository>();
+
+			services.AddScoped<MazeConfigurationValidator>();
+			services.AddScoped<MazeNameValidator>();
+
+			services.AddScoped<IMazeManager, MazeManager>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
