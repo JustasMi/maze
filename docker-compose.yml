@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  maze:
+    image: maze
+    build:
+      context: .
+      dockerfile: Maze\Dockerfile
