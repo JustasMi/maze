@@ -1,8 +1,24 @@
 ﻿@page
 @model Maze.Pages.CreateModel
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Generate new maze</h2>
 
+<form method="post">
+	<div class="form-group">
+		<label for="name">Maze Name</label>
+		<input type="text" class="form-control" id="name" asp-for="MazeConfiguration.Name" placeholder="Maze name">
+		<small class="form-text text-muted">Mazes need names too!</small>
+	</div>
+	<div class="form-group">
+		<label for="width">Width</label>
+		<input type="number" class="form-control" id="width" asp-for="MazeConfiguration.Width" placeholder="Enter maze width">
+	</div>
+	<div class="form-group">
+		<label for="height">Height</label>
+		<input type="number" class="form-control" id="height" asp-for="MazeConfiguration.Height" placeholder="Enter maze height">
+	</div>
+	<button type="submit" class="btn btn-primary">Generate</button>
+</form>

@@ -10,9 +10,6 @@ namespace Maze.Models
 	{
 		public int Id { get; set; }
 
-		[Required, StringLength(25)]
-		public string Name { get; set; }
-
 		public MazeConfiguration Configuration { get; set; }
 	}
 }
