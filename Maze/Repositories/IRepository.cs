@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Maze.Repositories
@@ -8,5 +9,7 @@ namespace Maze.Repositories
 		Task<TEntity> Get(TKey key);
 
 		Task Create(TEntity entity);
+
+		IQueryable<TEntity> GetAll();
 	}
 }

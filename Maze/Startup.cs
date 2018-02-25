@@ -1,5 +1,6 @@
 using Maze.EntityFramework;
 using Maze.Managers;
+using Maze.MazeGenerators;
 using Maze.Repositories;
 using Maze.Validation;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +32,8 @@ namespace Maze
 			services.AddScoped<MazeNameValidator>();
 
 			services.AddScoped<IMazeManager, MazeManager>();
+
+			services.AddScoped<IMazeGenerator, BacktrackingMazeGenerator>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

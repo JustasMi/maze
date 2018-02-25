@@ -1,5 +1,6 @@
 ﻿using Maze.EntityFramework;
-using Maze.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Maze.Repositories
@@ -22,6 +23,13 @@ namespace Maze.Repositories
 		public Task<Models.Maze> Get(int key)
 		{
 			return context.Maze.FindAsync(key);
+		}
+
+		public IQueryable<Models.Maze> GetAll()
+		{
+			return context.Maze
+				.Include(maze => maze.Configuration)
+				.AsQueryable();
 		}
 
 		#region IDisposable Support
