@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze", "Maze\Maze.csproj", "{AB0D0E97-0D9C-47B6-8A4D-42E8558C1CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze", "Maze\Maze.csproj", "{AB0D0E97-0D9C-47B6-8A4D-42E8558C1CC1}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6C789636-F637-4480-88FF-8B9E60D0C597}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DAF901CA-7C50-484A-AB4D-38B9F29262EB}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze.Tests", "Maze.Tests\Maze.Tests.csproj", "{7C5F4504-D77B-429C-9E26-1D19C473CD06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,10 @@ Global
 		{6C789636-F637-4480-88FF-8B9E60D0C597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C789636-F637-4480-88FF-8B9E60D0C597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C789636-F637-4480-88FF-8B9E60D0C597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C5F4504-D77B-429C-9E26-1D19C473CD06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C5F4504-D77B-429C-9E26-1D19C473CD06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C5F4504-D77B-429C-9E26-1D19C473CD06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C5F4504-D77B-429C-9E26-1D19C473CD06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
