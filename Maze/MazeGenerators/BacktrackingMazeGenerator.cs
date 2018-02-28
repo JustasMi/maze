@@ -18,36 +18,70 @@ namespace Maze.MazeGenerators
 					{
 						new Cell()
 						{
-							Border = Border.East | Border.North
+							Bottom = false,
+							Top = true,
+							Left = false,
+							Right = false
 						},
 						new Cell()
 						{
-							Border = Border.South | Border.North
+							Bottom = true,
+							Top = true,
+							Left = false,
+							Right = false
 						},
 						new Cell()
 						{
+							Bottom = true,
+							Top = true,
+							Left = false,
+							Right = true
 						},
 					},
 					{
 						new Cell()
 						{
+							Bottom = false,
+							Top = false,
+							Left = true,
+							Right = false
 						},
 						new Cell()
 						{
+							Bottom = true,
+							Top = true,
+							Left = false,
+							Right = false
 						},
 						new Cell()
 						{
+							Bottom = false,
+							Top = true,
+							Left = false,
+							Right = true
 						}
 					},
 					{
 						new Cell()
 						{
+							Bottom = true,
+							Top = false,
+							Left = true,
+							Right = false
 						},
 						new Cell()
 						{
+							Bottom = true,
+							Top = true,
+							Left = false,
+							Right = true
 						},
 						new Cell()
 						{
+							Bottom = true,
+							Top = false,
+							Left = true,
+							Right = false
 						}
 					}
 				}

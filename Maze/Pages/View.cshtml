@@ -1,4 +1,4 @@
-﻿@page "{id:int}"
+﻿@page "{id:int}/{handler?}"
 @model Maze.Pages.ViewModel
 @{
 	ViewData["Title"] = "View";
@@ -23,3 +23,5 @@
 		}
 	</tbody>
 </table>
+
+<canvas width="500" height="500" id="canvas">Can't load the maze game, because your browser doesn't support HTML5.</canvas>
