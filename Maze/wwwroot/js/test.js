@@ -1,13 +1,18 @@
 ﻿// Write more js ?
 var canvas = $("#canvas")[0];;
-var canvasContext = canvas.getContext("2d");;
+var canvasContext = canvas.getContext("2d");
+const direction = Object.freeze({
+	"up": 1,
+	"down": 2,
+	"left": 3,
+	"right": 4
+});
 var cellSize = 30;
 var startingPosition = 5;
 var cellData;
 
 var playerX = 20;
 var playerY = 20;
-var playerTravelDistance = cellSize;
 
 /*
 function Cell(left, right, top, bottom) {
@@ -19,42 +24,16 @@ function Cell(left, right, top, bottom) {
 */
 
 $.getJSON("?handler=Maze", function (data) {
-	//Do something with the data.
-	debugger;
-	//var test = new Cell(true, false, true, false);
-	//var obj = JSON.parse(data).result;
 	cellData = JSON.parse(data).result.cells;
 	drawScene();
-	/*
-	let x = startingPosition;
-	let y = startingPosition;
-	for (let i = 0; i < obj.cells.length; i++) {
-		for (let j = 0; j < obj.cells[i].length; j++) {
-			var value = obj.cells[i][j];
-			console.log(value);
-			drawCell(x, y, value);
-			x += cellSize;
-		}
-		y += cellSize;
-		x = startingPosition;
-	}
-	*/
 });
 
-function drawCell(x, y, cell) {
-	/* Draw cell based on wall properties */
-	
+function drawCell(x, y, cell) {	
 	var left = cell.left;
 	var right = cell.right;
 	var top = cell.top;
 	var bottom = cell.bottom;
-	
-	/*
-	var left = true;
-	var right = true;
-	var top = true;
-	var bottom = false;
-	*/
+
 	var size = cellSize;
 	canvasContext.beginPath();
 	canvasContext.strokeStyle = "#000000";
@@ -78,7 +57,6 @@ function drawCell(x, y, cell) {
 }
 
 function drawLine(sX, sY, eX, eY) {
-	/*Draw a line from the starting X and Y positions to  the ending X and Y positions*/
 	canvasContext.moveTo(sX, sY);
 	canvasContext.lineTo(eX, eY);
 }
@@ -111,26 +89,67 @@ function drawPlayer(x, y) {
 $(document).keypress(function (e) {
 	if (e.key === "w") {
 		// w
-		playerY -= playerTravelDistance;
 		console.log("w");
+		if (canMove(playerX, playerY - cellSize, direction.up)) {
+			playerY -= cellSize;
+		}
 	}
 	if (e.key === "a") {
 		// a
 		console.log("a");
-		playerX -= playerTravelDistance
+		if (canMove(playerX - cellSize, playerY, direction.left)) {
+			playerX -= cellSize
+		}
 	}
 	if (e.key === "d") {
 		// d
 		console.log("d");
-		playerX += playerTravelDistance
+		if (canMove(playerX + cellSize, playerY, direction.right)) {
+			playerX += cellSize
+		}
 	}
 	if (e.key === "s") {
 		// s
 		console.log("s");
-		playerY += playerTravelDistance;
+		if (canMove(playerX, playerY + cellSize, direction.down)) {
+			playerY += cellSize;
+		}
 	}
 	console.log("(" + playerX + ", " + playerY + ")");
+
 	canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
 	drawScene();
 });
+
+function canMove(targetX, targetY, directio) {
+	let isValidMove = false;
+
+	const currentX = Math.floor(playerX / cellSize);
+	const currentY = Math.floor(playerY / cellSize);
+
+	const destinationX = Math.floor(targetX / cellSize);
+	const destinationY = Math.floor(targetY / cellSize);
+
+	const boundaryX = cellData[0].length;
+	const boundaryY = cellData.length;
+
+	if (destinationX < 0 || destinationX >= boundaryX || destinationY < 0 || destinationY >= boundaryY) {
+		return false;
+	}
+
+	const currentCell = cellData[currentY][currentX];
+	const destinationCell = cellData[destinationY][destinationX];
+
+	if (directio === direction.down) {
+		isValidMove = !currentCell.bottom && !destinationCell.top;
+	} else if (directio === direction.up) {
+		isValidMove = !currentCell.top && !destinationCell.bottom;
+	} else if (directio === direction.left) {
+		isValidMove = !currentCell.left && !destinationCell.right;
+	} else {
+		isValidMove = !currentCell.right && !destinationCell.left;
+	}
+
+	return isValidMove;
+}
