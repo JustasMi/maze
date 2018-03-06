@@ -6,7 +6,7 @@ FROM microsoft/aspnetcore-build:2.0-nanoserver-1709 AS build
 WORKDIR /src
 COPY *.sln ./
 COPY Maze/Maze.csproj Maze/
-RUN dotnet restore
+RUN dotnet restore Maze
 COPY . .
 WORKDIR /src/Maze
 RUN dotnet build -c Release -o /app
