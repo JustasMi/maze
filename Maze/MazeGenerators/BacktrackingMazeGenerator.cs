@@ -88,6 +88,8 @@ namespace Maze.MazeGenerators
 					}
 				}
 			}
+			cells[mazeConfiguration.Width - 1, mazeConfiguration.Height - 1].Right = false;
+			cells[mazeConfiguration.Width - 1, mazeConfiguration.Height - 1].Goal = true;
 
 			return new Models.Maze()
 			{
@@ -175,88 +177,6 @@ namespace Maze.MazeGenerators
 		{
 			return null;
 		}
-
-		/*
-		public Models.Maze Generate(MazeConfiguration mazeConfiguration)
-		{
-			return new Models.Maze()
-			{
-				Configuration = mazeConfiguration,
-				Cells = new Cell[,]
-				{
-					{
-						new Cell()
-						{
-							Bottom = false,
-							Top = true,
-							Left = false,
-							Right = false
-						},
-						new Cell()
-						{
-							Bottom = true,
-							Top = true,
-							Left = false,
-							Right = false
-						},
-						new Cell()
-						{
-							Bottom = true,
-							Top = true,
-							Left = false,
-							Right = true
-						},
-					},
-					{
-						new Cell()
-						{
-							Bottom = false,
-							Top = false,
-							Left = true,
-							Right = false
-						},
-						new Cell()
-						{
-							Bottom = true,
-							Top = true,
-							Left = false,
-							Right = false
-						},
-						new Cell()
-						{
-							Bottom = false,
-							Top = true,
-							Left = false,
-							Right = true
-						}
-					},
-					{
-						new Cell()
-						{
-							Bottom = true,
-							Top = false,
-							Left = true,
-							Right = false
-						},
-						new Cell()
-						{
-							Bottom = true,
-							Top = true,
-							Left = false,
-							Right = true
-						},
-						new Cell()
-						{
-							Bottom = true,
-							Top = false,
-							Left = true,
-							Right = false
-						}
-					}
-				}
-			};
-		}
-		*/
 	}
 
 	public class BuildCell : Cell

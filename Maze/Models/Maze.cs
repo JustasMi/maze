@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Maze.Models
 {
@@ -36,6 +32,7 @@ namespace Maze.Models
 		public bool Right { get; set; }
 		public bool Top { get; set; }
 		public bool Bottom { get; set; }
+		public bool Goal { get; set; }
 	}
 
 	[Flags]
