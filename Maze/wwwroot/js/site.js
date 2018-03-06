@@ -1,17 +1,45 @@
-﻿// Write more js ?
-var canvas = $("#canvas")[0];
-var canvasContext = canvas.getContext("2d");
-var maze;
-var inputEnabled = false;
+﻿let canvas = $("#canvas")[0];
+let canvasContext = canvas.getContext("2d");
+let maze;
+let isInputEnabled = false;
 
-const direction = Object.freeze({
-	"up": 1,
-	"down": 2,
-	"left": 3,
-	"right": 4
+$(document).ready(function () {
+	initialise();
 });
 
-function Cell(left, right, top, bottom, goal) {
+$(document).keypress(function (event) {
+	if (!isInputEnabled) {
+		return;
+	}
+	if (event.key === "w") {
+		maze.movePlayer(direction.up);
+	}
+	if (event.key === "a") {
+		maze.movePlayer(direction.left);
+	}
+	if (event.key === "d") {
+		maze.movePlayer(direction.right);
+	}
+	if (event.key === "s") {
+		maze.movePlayer(direction.down);
+	}
+	maze.draw();
+});
+
+function initialise() {
+	$('#restartButton').prop("disabled", true);
+	$.getJSON("?handler=Maze", function (data) {
+		const parsedData = JSON.parse(data).result;
+		const mappedCells = Object.keys(parsedData.cells).map(key => {
+			return parsedData.cells[key].map(cell => new Cell(cell.left, cell.right, cell.top, cell.bottom, cell.goal, parsedData.configuration.cellSize));
+		});
+		maze = new Maze(mappedCells, parsedData.configuration);
+		maze.draw();
+		isInputEnabled = true;
+	});
+};
+
+function Cell(left, right, top, bottom, goal, cellSize) {
 	this.left = left;
 	this.right = right;
 	this.top = top;
@@ -20,7 +48,7 @@ function Cell(left, right, top, bottom, goal) {
 
 	this.cellStyle = "#000000";
 	this.cellLineWidth = 2;
-	this.cellSize = 30; // TODO: this is duplicated in maze object
+	this.cellSize = cellSize;
 
 	this.draw = function (x, y) {
 		canvasContext.beginPath();
@@ -55,8 +83,8 @@ function Maze(cells, configuration) {
 	this.cells = cells;
 	this.configuration = configuration;
 
-	this.cellSize = 30;
-	this.startingPosition = 2; // rename to maze origin
+	this.cellSize = configuration.cellSize;
+	this.startingPosition = 2; // to allow maze borders to be fully visible
 	this.player = new Player(this.cellSize);
 
 	this.draw = function () {
@@ -73,7 +101,7 @@ function Maze(cells, configuration) {
 			x = this.startingPosition;
 		}
 	};
-
+	// TODO: this function should not be in maze object
 	this.movePlayer = function (moveDirection) {
 		if (moveDirection === direction.up) {
 			if (this.canMove(this.player.playerX, this.player.playerY - this.cellSize, direction.up)) {
@@ -98,7 +126,29 @@ function Maze(cells, configuration) {
 				this.player.playerY += this.cellSize;
 			}
 		}
+
+		if (this.isMazeSolved()) {
+			this.finishMaze();
+		}
 	};
+
+	this.finishMaze = function () {
+		isInputEnabled = false;
+		$('#restartButton').prop("disabled", false);
+	}
+
+	this.isMazeSolved = function () {
+		const currentX = Math.floor(this.player.playerX / this.cellSize);
+		const currentY = Math.floor(this.player.playerY / this.cellSize);
+
+		const playerCell = this.cells[currentY][currentX];
+
+		if (playerCell.goal) {
+			return true;
+		}
+
+		return false;
+	}
 
 	this.canMove = function (targetX, targetY, moveDirection) {
 		let isValidMove = false;
@@ -133,7 +183,7 @@ function Maze(cells, configuration) {
 
 	this.moveThroughSolved = async function (solution) {
 		this.player = new Player(this.cellSize);
-		inputEnabled = false;
+		isInputEnabled = false;
 
 		for (let i = 0; i < solution.length; i++) {
 			this.player.playerX = solution[i].x * this.cellSize + 20;
@@ -141,6 +191,8 @@ function Maze(cells, configuration) {
 			this.draw();
 			await sleep(500);
 		}
+
+		this.finishMaze();
 	}
 };
 
@@ -164,36 +216,13 @@ function Player(cellSize) {
 	};
 }
 
-$.getJSON("?handler=Maze", function (data) {
-	const parsedData = JSON.parse(data).result;
-	var mappedCells = Object.keys(parsedData.cells).map(key => {
-		return parsedData.cells[key].map(cell => new Cell(cell.left, cell.right, cell.top, cell.bottom, cell.goal));
-	});
-	maze = new Maze(mappedCells, parsedData.configuration);
-	maze.draw();
-	inputEnabled = true;
-});
+function onRestartClick() {
+	initialise();
+	$('#solveButton').prop('disabled', false);
+}
 
-$(document).keypress(function (event) {
-	if (!inputEnabled) {
-		return;
-	}
-	if (event.key === "w") {
-		maze.movePlayer(direction.up);
-	}
-	if (event.key === "a") {
-		maze.movePlayer(direction.left);
-	}
-	if (event.key === "d") {
-		maze.movePlayer(direction.right);
-	}
-	if (event.key === "s") {
-		maze.movePlayer(direction.down);
-	}
-	maze.draw();
-});
-
-function solveMaze() {
+function onSolveMazeClick() {
+	$('#solveButton').prop('disabled', true);
 	const cells = $.extend(true, [], maze.cells);
 	const queue = [];
 
@@ -251,7 +280,7 @@ function solveMaze() {
 	let currentCell = cells[mazeHeight - 1][mazeWidth - 1];
 	solution.push(currentCell);
 
-	while (currentCell.label != 1) {
+	while (currentCell.label !== 1) {
 		// check top
 		if (isWithinBounds(currentCell.x, currentCell.y - 1, mazeWidth, mazeHeight)) {
 			let neighbourCell = cells[currentCell.y - 1][currentCell.x];
@@ -295,3 +324,10 @@ function solveMaze() {
 function isWithinBounds(x, y, maximumX, maximumY) {
 	return x >= 0 && x < maximumX && y >= 0 && y < maximumY;
 }
+
+const direction = Object.freeze({
+	"up": 1,
+	"down": 2,
+	"left": 3,
+	"right": 4
+});

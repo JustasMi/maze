@@ -11,7 +11,11 @@
 }
 
 <h2>Maze challenge</h2>
-<canvas width="@canvasWidth" height="@canvasHeight" id="canvas">Your browser does not support HTML5.</canvas>
+<span>To navigate in maze use W, A, S, D keys</span>
 <div>
-	<button type="button" class="btn btn-info" onclick="solveMaze()">Solve maze</button>
+	<canvas width="@canvasWidth" height="@canvasHeight" id="canvas">Your browser does not support HTML5.</canvas>
+</div>
+<div>
+	<button type="button" class="btn btn-default" onclick="onSolveMazeClick()" id="solveButton">Solve maze</button>
+	<button type="button" class="btn btn-info" onclick="onRestartClick()" id="restartButton" disabled>Restart</button>
 </div>
