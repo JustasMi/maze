@@ -1,6 +1,5 @@
 ﻿using Maze.Managers;
 using Maze.Models;
-using Maze.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;

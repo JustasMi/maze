@@ -2,6 +2,12 @@
 @model Maze.Pages.ViewModel
 @{
 	ViewData["Title"] = "View";
+	int canvasHeight = Model.Maze.Configuration.Width * Model.Maze.Configuration.CellSize + 5;
+	int canvasWidth = Model.Maze.Configuration.Height * Model.Maze.Configuration.CellSize + 5;
+}
+@section Scripts
+	{
+	<script src="~/js/site.js" asp-append-version="true"></script>
 }
 
 <h2>View Maze</h2>
@@ -9,21 +15,8 @@
 <div>Name: @Model.Maze.Configuration.Name</div>
 <div>Height: @Model.Maze.Configuration.Height</div>
 <div>Width: @Model.Maze.Configuration.Width</div>
-<!--
-<table class="table">
-	<tbody>
-		@for (int i = 0; i < Model.Maze.Configuration.Height; i++)
-		{
-			<tr>
-				@for (int j = 0; j < Model.Maze.Configuration.Width; j++)
-				{
-					<td>(i,j)-(@i , @j )</td>
-				}
-			</tr>
-		}
-	</tbody>
-</table>
-	-->
-<canvas width="700" height="700" id="canvas">Your browser does not support HTML5.</canvas>
 
-<button type="button" class="btn btn-info" onclick="solveMaze()">Solve maze</button>
+<canvas width="@canvasWidth" height="@canvasHeight" id="canvas">Your browser does not support HTML5.</canvas>
+<div>
+	<button type="button" class="btn btn-info" onclick="solveMaze()">Solve maze</button>
+</div>

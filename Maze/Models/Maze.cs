@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Maze.Models
@@ -10,7 +9,7 @@ namespace Maze.Models
 		public MazeConfiguration Configuration { get; set; }
 
 		[JsonIgnore]
-		public string cells { get; set; } // do something about this
+		public string cells { get; set; } // TODO: find a better way of storing serialized values
 
 		[NotMapped]
 		public Cell[,] Cells
@@ -33,15 +32,5 @@ namespace Maze.Models
 		public bool Top { get; set; }
 		public bool Bottom { get; set; }
 		public bool Goal { get; set; }
-	}
-
-	[Flags]
-	public enum Border
-	{
-		None = 0,
-		North = 1 << 0,
-		East = 1 << 1,
-		South = 1 << 2,
-		West = 1 << 3
 	}
 }

@@ -1,4 +1,5 @@
 ﻿// Write more js ?
+/*
 var canvas = $("#canvas")[0];
 var canvasContext = canvas.getContext("2d");
 var maze;
@@ -295,3 +296,4 @@ function solveMaze() {
 function isWithinBounds(x, y, maximumX, maximumY) {
 	return x >= 0 && x < maximumX && y >= 0 && y < maximumY;
 }
+*/

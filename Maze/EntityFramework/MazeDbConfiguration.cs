@@ -8,7 +8,6 @@ namespace Maze.EntityFramework
 		public void Configure(EntityTypeBuilder<Models.Maze> builder)
 		{
 			builder.HasKey(maze => maze.Id);
-			//builder.HasOne(maze => maze.Configuration);
 		}
 	}
 }
