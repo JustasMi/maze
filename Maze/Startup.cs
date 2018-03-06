@@ -1,7 +1,7 @@
 using AutoMapper;
 using Maze.EntityFramework;
+using Maze.Factories;
 using Maze.Managers;
-using Maze.MazeGenerators;
 using Maze.Models;
 using Maze.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -28,12 +28,12 @@ namespace Maze
 			services.AddDbContext<MazeDbContext>(options => options.UseInMemoryDatabase("Maze"));
 			services.AddScoped<IMazeRepository, MazeRepository>();
 			services.AddScoped<IMazeManager, MazeManager>();
-			services.AddScoped<IMazeGenerator, BacktrackingMazeGenerator>();
-			services.AddSingleton<IMapper>(fa =>
+			services.AddScoped<IMazeFactory, MazeFactory>();
+			services.AddSingleton<IMapper>(serviceProvider =>
 			{
 				IMapper mapper = new MapperConfiguration(configuration =>
 				{
-					configuration.CreateMap<BuildCell, Cell>();
+					configuration.CreateMap<FactoryCell, Cell>();
 				}).CreateMapper();
 				return mapper;
 			});

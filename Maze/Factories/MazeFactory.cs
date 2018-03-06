@@ -4,25 +4,24 @@ using System.Linq;
 using AutoMapper;
 using Maze.Models;
 
-namespace Maze.MazeGenerators
+namespace Maze.Factories
 {
-	public class BacktrackingMazeGenerator : IMazeGenerator
+	public class MazeFactory : IMazeFactory
 	{
 		private readonly IMapper mapper;
 
-		public BacktrackingMazeGenerator(IMapper mapper)
+		public MazeFactory(IMapper mapper)
 		{
 			this.mapper = mapper;
 		}
 
-		public Models.Maze Generate(MazeConfiguration mazeConfiguration)
+		public Models.Maze Build(MazeConfiguration mazeConfiguration)
 		{
-			BuildCell[,] cells = InitialiseCells(mazeConfiguration);
+			FactoryCell[,] cells = InitialiseGrid(mazeConfiguration);
 			Random random = new Random();
-			Stack<BuildCell> cellStack = new Stack<BuildCell>();
-			// start algorithm
-			// initial cell
-			var currentCell = cells[0, 0];
+			Stack<FactoryCell> cellStack = new Stack<FactoryCell>();
+
+			FactoryCell currentCell = cells[0, 0];
 			currentCell.Left = false;
 			currentCell.Visited = true;
 
@@ -30,7 +29,6 @@ namespace Maze.MazeGenerators
 
 			while (hasUnvisitedCells)
 			{
-				// find random unvisited neighbour
 				var unvisitedNeighbours = currentCell.Neighbours
 					.Where(n => !n.Cell.Visited)
 					.ToList();
@@ -41,10 +39,8 @@ namespace Maze.MazeGenerators
 					int randomIndex = random.Next(unvisitedNeighbourCount);
 					var selectedNeighbour = unvisitedNeighbours[randomIndex];
 
-					// push cell to stack
 					cellStack.Push(currentCell);
 
-					// remove wall
 					if (selectedNeighbour.Direction == NeighbourDirection.Bottom)
 					{
 						currentCell.Bottom = false;
@@ -65,7 +61,7 @@ namespace Maze.MazeGenerators
 						currentCell.Right = false;
 						selectedNeighbour.Cell.Left = false;
 					}
-					// mark chosen cell as visited and select as current one
+
 					selectedNeighbour.Cell.Visited = true;
 					currentCell = selectedNeighbour.Cell;
 				}
@@ -78,17 +74,18 @@ namespace Maze.MazeGenerators
 				}
 
 				hasUnvisitedCells = false;
-				// check if there are unvisited cells
-				foreach (BuildCell b in cells)
+
+				foreach (FactoryCell cell in cells)
 				{
-					if (!b.Visited)
+					if (!cell.Visited)
 					{
 						hasUnvisitedCells = true;
 						break;
 					}
 				}
 			}
-			BuildCell finishCell = cells[mazeConfiguration.Height - 1, mazeConfiguration.Width - 1];
+
+			FactoryCell finishCell = cells[mazeConfiguration.Height - 1, mazeConfiguration.Width - 1];
 			finishCell.Right = false;
 			finishCell.Goal = true;
 
@@ -99,17 +96,17 @@ namespace Maze.MazeGenerators
 			};
 		}
 
-		private BuildCell[,] InitialiseCells(MazeConfiguration mazeConfiguration)
+		private FactoryCell[,] InitialiseGrid(MazeConfiguration mazeConfiguration)
 		{
 			int boundaryX = mazeConfiguration.Width;
 			int boundaryY = mazeConfiguration.Height;
 
-			BuildCell[,] cells = new BuildCell[boundaryY, boundaryX];
+			FactoryCell[,] cells = new FactoryCell[boundaryY, boundaryX];
 			for (int i = 0; i < boundaryY; i++)
 			{
 				for (int j = 0; j < boundaryX; j++)
 				{
-					cells[i, j] = new BuildCell()
+					cells[i, j] = new FactoryCell()
 					{
 						Bottom = true,
 						Left = true,
@@ -125,7 +122,7 @@ namespace Maze.MazeGenerators
 				for (int j = 0; j < boundaryX; j++)
 				{
 					List<NeighbourCell> neighbours = new List<NeighbourCell>();
-					// consider right
+					// Consider right neighbour
 					if (IsValidNeighbour(i, j + 1, boundaryX, boundaryY))
 					{
 						neighbours.Add(new NeighbourCell()
@@ -134,7 +131,7 @@ namespace Maze.MazeGenerators
 							Direction = NeighbourDirection.Right
 						});
 					}
-					// consider left
+					// Consider left neighbour
 					if (IsValidNeighbour(i, j - 1, boundaryX, boundaryY))
 					{
 						neighbours.Add(new NeighbourCell()
@@ -143,7 +140,7 @@ namespace Maze.MazeGenerators
 							Direction = NeighbourDirection.Left
 						});
 					}
-					// consider up
+					// Consider top neighbour
 					if (IsValidNeighbour(i - 1, j, boundaryX, boundaryY))
 					{
 						neighbours.Add(new NeighbourCell()
@@ -152,7 +149,7 @@ namespace Maze.MazeGenerators
 							Direction = NeighbourDirection.Top
 						});
 					}
-					// consider bottom
+					// Consider bottom neighbour
 					if (IsValidNeighbour(i + 1, j, boundaryX, boundaryY))
 					{
 						neighbours.Add(new NeighbourCell()
@@ -165,7 +162,6 @@ namespace Maze.MazeGenerators
 					cells[i, j].Neighbours = neighbours;
 				}
 			}
-
 			return cells;
 		}
 
@@ -173,31 +169,5 @@ namespace Maze.MazeGenerators
 		{
 			return neighbourX >= 0 && neighbourX < boundaryX && neighbourY >= 0 && neighbourY < boundaryY;
 		}
-
-		private BuildCell FindUnvisitedNeighbours()
-		{
-			return null;
-		}
-	}
-
-	public class BuildCell : Cell
-	{
-		public bool Visited { get; set; }
-		public IList<NeighbourCell> Neighbours { get; set; }
-	}
-
-	public class NeighbourCell
-	{
-		public BuildCell Cell { get; set; }
-		public NeighbourDirection Direction { get; set; }
-	}
-
-	public enum NeighbourDirection
-	{
-		None = 0,
-		Left = 1,
-		Right = 2,
-		Top = 3,
-		Bottom = 4
 	}
 }

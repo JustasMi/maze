@@ -1,4 +1,4 @@
-﻿using Maze.MazeGenerators;
+﻿using Maze.Factories;
 using Maze.Models;
 using Maze.Repositories;
 using System.Linq;
@@ -9,19 +9,19 @@ namespace Maze.Managers
 	public class MazeManager : IMazeManager
 	{
 		private readonly IMazeRepository mazeRepository;
-		private readonly IMazeGenerator mazeGenerator;
+		private readonly IMazeFactory mazeFactory;
 
 		public MazeManager(
 			IMazeRepository mazeRepository,
-			IMazeGenerator mazeGenerator)
+			IMazeFactory mazeFactory)
 		{
 			this.mazeRepository = mazeRepository;
-			this.mazeGenerator = mazeGenerator;
+			this.mazeFactory = mazeFactory;
 		}
 
 		public async Task GenerateMaze(MazeConfiguration mazeConfiguration)
 		{
-			Models.Maze maze = mazeGenerator.Generate(mazeConfiguration);
+			Models.Maze maze = mazeFactory.Build(mazeConfiguration);
 			await mazeRepository.Create(maze);
 		}
 
