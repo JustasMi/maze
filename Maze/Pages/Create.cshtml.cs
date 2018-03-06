@@ -18,10 +18,6 @@ namespace Maze.Pages
 			this.mazeManager = mazeManager;
 		}
 
-		public void OnGet()
-		{
-		}
-
 		public async Task<IActionResult> OnPostAsync()
 		{
 			if (!ModelState.IsValid)

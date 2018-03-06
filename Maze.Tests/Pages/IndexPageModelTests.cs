@@ -3,7 +3,6 @@ using Maze.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Maze.Tests.Pages
 {
@@ -11,7 +10,7 @@ namespace Maze.Tests.Pages
 	public class IndexPageModelTests
 	{
 		[TestMethod, Description("Test get method setting page model")]
-		public async Task TestIndexPageModel()
+		public void TestIndexPageModel()
 		{
 			Mock<IMazeManager> mockMazeManager = new Mock<IMazeManager>();
 			mockMazeManager.Setup(manager => manager.GetAll()).ReturnsAsync(new[] { new Models.Maze() { Id = 3 } });
