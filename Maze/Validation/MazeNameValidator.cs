@@ -1,6 +1,5 @@
 ﻿using Maze.Models;
 using Maze.Validation.Common;
-using System;
 
 namespace Maze.Validation
 {
