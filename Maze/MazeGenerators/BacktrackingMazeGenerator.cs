@@ -88,8 +88,9 @@ namespace Maze.MazeGenerators
 					}
 				}
 			}
-			cells[mazeConfiguration.Width - 1, mazeConfiguration.Height - 1].Right = false;
-			cells[mazeConfiguration.Width - 1, mazeConfiguration.Height - 1].Goal = true;
+			BuildCell finishCell = cells[mazeConfiguration.Height - 1, mazeConfiguration.Width - 1];
+			finishCell.Right = false;
+			finishCell.Goal = true;
 
 			return new Models.Maze()
 			{
@@ -103,10 +104,10 @@ namespace Maze.MazeGenerators
 			int boundaryX = mazeConfiguration.Width;
 			int boundaryY = mazeConfiguration.Height;
 
-			BuildCell[,] cells = new BuildCell[boundaryX, boundaryY];
-			for (int i = 0; i < boundaryX; i++)
+			BuildCell[,] cells = new BuildCell[boundaryY, boundaryX];
+			for (int i = 0; i < boundaryY; i++)
 			{
-				for (int j = 0; j < boundaryY; j++)
+				for (int j = 0; j < boundaryX; j++)
 				{
 					cells[i, j] = new BuildCell()
 					{
@@ -119,9 +120,9 @@ namespace Maze.MazeGenerators
 				}
 			}
 
-			for (int i = 0; i < boundaryX; i++)
+			for (int i = 0; i < boundaryY; i++)
 			{
-				for (int j = 0; j < boundaryY; j++)
+				for (int j = 0; j < boundaryX; j++)
 				{
 					List<NeighbourCell> neighbours = new List<NeighbourCell>();
 					// consider right
@@ -168,7 +169,7 @@ namespace Maze.MazeGenerators
 			return cells;
 		}
 
-		private bool IsValidNeighbour(int neighbourX, int neighbourY, int boundaryX, int boundaryY)
+		private bool IsValidNeighbour(int neighbourY, int neighbourX, int boundaryX, int boundaryY)
 		{
 			return neighbourX >= 0 && neighbourX < boundaryX && neighbourY >= 0 && neighbourY < boundaryY;
 		}

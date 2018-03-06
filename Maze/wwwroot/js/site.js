@@ -246,7 +246,7 @@ function solveMaze() {
 			}
 		}
 	}
-	debugger;
+
 	let solution = [];
 	let currentCell = cells[mazeHeight - 1][mazeWidth - 1];
 	solution.push(currentCell);

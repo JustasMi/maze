@@ -4,7 +4,6 @@ using Maze.Managers;
 using Maze.MazeGenerators;
 using Maze.Models;
 using Maze.Repositories;
-using Maze.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,16 +26,9 @@ namespace Maze
 		{
 			services.AddMvc();
 			services.AddDbContext<MazeDbContext>(options => options.UseInMemoryDatabase("Maze"));
-
 			services.AddScoped<IMazeRepository, MazeRepository>();
-
-			services.AddScoped<MazeConfigurationValidator>();
-			services.AddScoped<MazeNameValidator>();
-
 			services.AddScoped<IMazeManager, MazeManager>();
-
 			services.AddScoped<IMazeGenerator, BacktrackingMazeGenerator>();
-
 			services.AddSingleton<IMapper>(fa =>
 			{
 				IMapper mapper = new MapperConfiguration(configuration =>
