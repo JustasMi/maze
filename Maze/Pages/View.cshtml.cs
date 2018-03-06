@@ -3,7 +3,6 @@ using Maze.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Maze.Pages
 {
@@ -33,13 +32,7 @@ namespace Maze.Pages
 
 		public IActionResult OnGetMaze(int id)
 		{
-			var jsonSerializerSettings = new JsonSerializerSettings
-			{
-				ContractResolver = new CamelCasePropertyNamesContractResolver()
-			};
-
-			return new JsonResult(JsonConvert.SerializeObject(mazeManager.Get(id), jsonSerializerSettings));
-			//return new JsonResult(mazeManager.Get(id));
+			return new JsonResult(JsonConvert.SerializeObject(mazeManager.Get(id)));
 		}
 	}
 }

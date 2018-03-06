@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Maze
 {
@@ -25,6 +27,7 @@ namespace Maze
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc();
+
 			services.AddDbContext<MazeDbContext>(options => options.UseInMemoryDatabase("Maze"));
 			services.AddScoped<IMazeRepository, MazeRepository>();
 			services.AddScoped<IMazeManager, MazeManager>();
@@ -36,6 +39,13 @@ namespace Maze
 					configuration.CreateMap<FactoryCell, Cell>();
 				}).CreateMapper();
 				return mapper;
+			});
+
+			JsonConvert.DefaultSettings = (() =>
+			{
+				JsonSerializerSettings settings = new JsonSerializerSettings();
+				settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+				return settings;
 			});
 		}
 

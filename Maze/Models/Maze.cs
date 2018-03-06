@@ -9,18 +9,18 @@ namespace Maze.Models
 		public MazeConfiguration Configuration { get; set; }
 
 		[JsonIgnore]
-		public string cells { get; set; } // TODO: find a better way of storing serialized values
+		public string SerializedCells { get; set; }
 
 		[NotMapped]
 		public Cell[,] Cells
 		{
 			get
 			{
-				return JsonConvert.DeserializeObject<Cell[,]>(cells);
+				return JsonConvert.DeserializeObject<Cell[,]>(SerializedCells);
 			}
 			set
 			{
-				cells = JsonConvert.SerializeObject(value);
+				SerializedCells = JsonConvert.SerializeObject(value);
 			}
 		}
 	}
